@@ -1,18 +1,21 @@
 import express from 'express';
+import cors from 'cors';
 import { connectDB } from './configs/mongoose.js';
+import { orderRoutes } from './router/order.router.js';
+import { restaurantRoutes } from './router/restaurant.router.js';
+import { corsOptions } from './utilities/constant.js';
 const port = 3000
 
 const bootServer = () => {
   const app = express()
 
+  app.use(cors())
   app.use(express.json())
-
-  app.get('/', (req, res) => {
-    res.send('Hello World! `12')
-  })
+  app.use('/orders', orderRoutes)
+  app.use('/restaurants', restaurantRoutes)
   
   app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`App listening on port ${port}`)
   })
 }
 
